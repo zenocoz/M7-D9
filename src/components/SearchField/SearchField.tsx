@@ -37,12 +37,12 @@ export default class SearchField extends Component<{}, State> {
       let data = await response.json()
 
       this.setState({ results: data.data })
+      this.setState({ keyword: "" })
 
       console.log("RESULTS", this.state.results)
     } catch (error) {
       console.log(error)
     }
-    this.setState({ keyword: "" })
   }
   render() {
     return (

@@ -1,16 +1,29 @@
 import React from "react"
 import { ListGroup } from "react-bootstrap"
+import { RouteComponentProps, withRouter } from "react-router-dom"
+import ISongDetails from "../../types/songDetailsInterface"
 
-interface Props {
-  results: { title: string }[]
-}
+// interface IProps {
+//   results: { title: string; id: string }[]
+// }
+// type ISongDetails = RouteComponentProps & IProps
 
-export default function Results(props: Props) {
+const Results = ({ results, history }: ISongDetails) => {
   return (
     <ListGroup>
-      {props.results.map((res) => (
-        <ListGroup.Item>{res.title}</ListGroup.Item>
+      {results.map((res, index) => (
+        <ListGroup.Item
+          key={index}
+          onClick={() => {
+            history.push("/details/" + res.id)
+          }}
+        >
+          <span>{res.title} </span> <span>duration: {res.duration} </span>{" "}
+          <span>album: {res.album.title}</span>
+        </ListGroup.Item>
       ))}
     </ListGroup>
   )
 }
+
+export default withRouter(Results)

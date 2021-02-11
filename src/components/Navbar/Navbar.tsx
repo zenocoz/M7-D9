@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react"
 import React from "react"
+import { Link } from "react-router-dom"
 import { Navbar, Nav } from "react-bootstrap"
 
 class MyNav extends React.Component {
@@ -9,7 +10,7 @@ class MyNav extends React.Component {
         <Navbar bg="dark" variant="dark">
           <Navbar.Brand href="#home">Music Search Engine</Navbar.Brand>
           <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
+            <Link to="/">Home</Link>
           </Nav>
         </Navbar>
         <br />
