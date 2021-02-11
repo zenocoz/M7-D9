@@ -1,8 +1,9 @@
 import React, { Component } from "react"
-import { Form, FormControl, Button } from "react-bootstrap"
+import { Form, FormControl, Button, ListGroup } from "react-bootstrap"
+import Results from "../Results/Results"
 
 interface State {
-  results: object[]
+  results: {}[]
   keyword: string
 }
 
@@ -19,8 +20,9 @@ export default class SearchField extends Component<{}, State> {
   }
 
   submitSearch = async (e: any) => {
-    console.log("CLicked")
     e.preventDefault()
+
+    console.log("CLicked")
     try {
       let response = await fetch(
         `https://deezerdevs-deezer.p.rapidapi.com/search?q=${this.state.keyword}`,
@@ -33,8 +35,10 @@ export default class SearchField extends Component<{}, State> {
         }
       )
       let data = await response.json()
-      this.setState({ results: data })
-      console.log(this.state.results)
+
+      this.setState({ results: data.data })
+
+      console.log("RESULTS", this.state.results)
     } catch (error) {
       console.log(error)
     }
@@ -42,17 +46,25 @@ export default class SearchField extends Component<{}, State> {
   }
   render() {
     return (
-      <Form inline>
-        <FormControl
-          type="text"
-          placeholder="Search Music"
-          className="mr-sm-2"
-          onChange={this.handleChange}
-        />
-        <Button variant="outline-info" onClick={this.submitSearch}>
-          Search
-        </Button>
-      </Form>
+      <>
+        <Form inline>
+          <FormControl
+            type="text"
+            placeholder="Search Music"
+            className="mr-sm-2"
+            value={this.state.keyword}
+            onChange={this.handleChange}
+          />
+          <Button variant="outline-info" onClick={this.submitSearch}>
+            Search
+          </Button>
+        </Form>
+        <div className="mt-5">
+          {this.state.results.length > 0 && (
+            <Results results={this.state.results} />
+          )}
+        </div>
+      </>
     )
   }
 }
