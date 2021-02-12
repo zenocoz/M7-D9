@@ -13,7 +13,7 @@ function App() {
       <MyNav />
       <Route path="/" exact render={(props) => <Home />} />
 
-      <Route path="/details/:id" exact render={(props) => <Details />} />
+      <Route path="/details/:id" render={(props) => <Details {...props} />} />
     </div>
   )
 }

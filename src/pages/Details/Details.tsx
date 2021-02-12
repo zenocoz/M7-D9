@@ -2,29 +2,50 @@ import React, { useEffect } from "react"
 import { Card, ListGroup, ListGroupItem } from "react-bootstrap"
 import { RouteComponentProps, withRouter } from "react-router-dom"
 // import ISongDetails from "../../types/songDetailsInterface"
+import { ISongShort } from "../../types/songInterface"
 
-class Details extends React.Component<RouteComponentProps> {
-  // componentDidMount = async () => {
-  //     try{
+interface IAddId {
+  id: string
+}
 
-  //         let response = await fetch(
-  //             `https://deezerdevs-deezer.p.rapidapi.com/track/${this.props.match.params.id}`,
-  //             {
-  //               method: "GET",
-  //               headers: {
-  //                 "X-RapidAPI-Key":
-  //                   "f8be2f0c65mshfad5043cb400d5dp12eb36jsn70f4e3e3750f",
-  //               },
-  //             }
-  //     }
-  //     catch(err){console.log(err)}
-  // }
+interface ICustomState {
+  song: ISongShort
+}
+
+class Details extends React.Component<
+  RouteComponentProps<IAddId>,
+  ICustomState
+> {
+  state = {
+    song: { title: "", md5_image: "" },
+  }
+  componentDidMount = async () => {
+    try {
+      let response = await fetch(
+        `https://deezerdevs-deezer.p.rapidapi.com/track/+${this.props.match.params.id}`,
+        {
+          method: "GET",
+          headers: {
+            "X-RapidAPI-Key":
+              "f8be2f0c65mshfad5043cb400d5dp12eb36jsn70f4e3e3750f",
+          },
+        }
+      )
+      let data: ISongShort = await response.json()
+      console.log(data)
+      this.setState({ song: data })
+    } catch (err) {
+      console.log(err)
+    }
+  }
   render() {
     return (
       <Card style={{ width: "18rem" }}>
-        <Card.Img variant="top" src="holder.js/100px180?text=Image cap" />
+        <Card.Img variant="top" src={this.state.song.md5_image} />
         <Card.Body>
-          <Card.Title>Card Title</Card.Title>
+          <Card.Title>
+            {this.state.song !== null ? this.state.song.title : " "}
+          </Card.Title>
           <Card.Text>
             Some quick example text to build on the card title and make up the
             bulk of the card's content.
@@ -44,4 +65,4 @@ class Details extends React.Component<RouteComponentProps> {
   }
 }
 
-export default withRouter(Details)
+export default Details

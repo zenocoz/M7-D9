@@ -20,30 +20,29 @@ export default class SearchField extends Component<{}, State> {
   }
 
   submitSearch = async (e: any) => {
-    e.preventDefault()
-
-    console.log("CLicked")
-    try {
-      let response = await fetch(
-        `https://deezerdevs-deezer.p.rapidapi.com/search?q=${this.state.keyword}`,
-        {
-          method: "GET",
-          headers: {
-            "X-RapidAPI-Key":
-              "f8be2f0c65mshfad5043cb400d5dp12eb36jsn70f4e3e3750f",
-          },
-        }
-      )
-      let data = await response.json()
-
-      this.setState({ results: data.data })
-      this.setState({ keyword: "" })
-
-      console.log("RESULTS", this.state.results)
-    } catch (error) {
-      console.log(error)
+    if (e.keyCode === 13 || e.key === "Enter") {
+      e.preventDefault()
+      try {
+        let response = await fetch(
+          `https://deezerdevs-deezer.p.rapidapi.com/search?q=${this.state.keyword}`,
+          {
+            method: "GET",
+            headers: {
+              "X-RapidAPI-Key":
+                "f8be2f0c65mshfad5043cb400d5dp12eb36jsn70f4e3e3750f",
+            },
+          }
+        )
+        let data = await response.json()
+        this.setState({ results: data.data })
+        this.setState({ keyword: "" })
+        console.log("RESULTS", this.state.results)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
+
   render() {
     return (
       <>
@@ -54,6 +53,7 @@ export default class SearchField extends Component<{}, State> {
             className="mr-sm-2"
             value={this.state.keyword}
             onChange={this.handleChange}
+            onKeyDown={this.submitSearch}
           />
           <Button variant="outline-info" onClick={this.submitSearch}>
             Search
