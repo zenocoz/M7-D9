@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { Card, ListGroup, ListGroupItem } from "react-bootstrap"
 import { RouteComponentProps, withRouter } from "react-router-dom"
 // import ISongDetails from "../../types/songDetailsInterface"
-import { ISongShort } from "../../types/songInterface"
+import { ISongShort, Album } from "../../types/songInterface"
 
 interface IAddId {
   id: string

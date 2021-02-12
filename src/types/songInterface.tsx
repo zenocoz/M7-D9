@@ -28,6 +28,7 @@ export interface ISong {
 
 export interface ISongShort {
   title: string
+  //   album: Album TODO make this work
 
   md5_image: string
 }
